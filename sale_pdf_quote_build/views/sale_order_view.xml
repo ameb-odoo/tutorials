@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="sale_order_form_inherit_sale_pdf_quote_builder" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.sale.pdf.quote.builder</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Add the checkbox inside the Quote Builder tab -->
+            <xpath expr="//page[@name='pdf_quote_builder']" position="inside">
+                <group string="PDF Options">
+                    <field name="pdf_reordered"/>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
+
