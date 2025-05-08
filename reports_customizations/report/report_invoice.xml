@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_invoice_document" inherit_id="account.report_invoice_document">
+            <xpath expr="//div[@class='row']" position='replace' />
+            <xpath
+                expr="//span[contains(@t-if, 'o.move_type') and contains(@t-if, 'state')]"
+                position="attributes">
+                <attribute name="class">text-uppercase text-end</attribute>
+                <attribute name="style">color:#73337d;font-weight: bold;</attribute>
+            </xpath>
+
+            <xpath expr="//span[@t-field='o.name']" position="attributes">
+                <attribute name="class">d-none</attribute>
+            </xpath>
+
+            <xpath expr="//div[@id='informations']" position="after">
+                <div class="row mt-4 mb-4" id="informations">
+                    <div t-if="o.partner_id" class="col-auto col-4 mw-100 mb-2"
+                        name="partner_invoice_address">
+                        <strong style="color:#0b1d5b;">BILL TO:</strong>
+                        <div class="col-10" style="border-bottom: 1px solid #b7b7b7;" />
+                        <p
+                            class="m-0"
+                            t-field="o.partner_id"
+                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'
+                        />
+                    </div>
+                    <div
+                        t-if="o.partner_shipping_id"
+                        class="col-auto col-4 mw-100 mb-2"
+                        name="partner_shipping_address"
+                    >
+                        <strong style="color:#0b1d5b;">SHIP TO</strong>
+                        <div class="col-10" style="border-bottom: 1px solid #b7b7b7;" />
+                        <p
+                            class="m-0"
+                            t-field="o.partner_shipping_id"
+                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'
+                        />
+                    </div>
+                    <div class="col-auto col-4 mw-100 mb-2" name="informations_details">
+                        <div t-if="o.name">
+                            <strong style="color:black">Invoice No:</strong> # <span
+                                t-field="o.name" />
+                        </div>
+                        <div t-if="o.invoice_date">
+                            <strong style="color:black">Date:</strong>
+                            <span t-field="o.invoice_date" t-options='{"widget": "date"}' />
+                        </div>
+                        <div t-if="o.invoice_date_due and o.invoice_date">
+                            <strong style="color:black">Valid For:</strong>
+                            <span
+                                t-out="(o.invoice_date_due - o.invoice_date).days" /> days </div>
+                    </div>
+                </div>
+            </xpath>
+            <xpath expr="//table[hasclass('o_main_table')]" position="attributes">
+                <attribute name="class">table-sm o_main_table border-black table-bordered mt-4</attribute>
+                <attribute name="style">width:100%;</attribute>
+            </xpath>
+            <xpath expr="//thead" position="attributes">
+                <attribute name="style">background-color:#7aaf4b; color:white;</attribute>
+            </xpath>
+            <xpath expr="//th[@name='th_description']" position="before">
+                <th name="th_no" class="text-center" style="font-weight: bold;">No.</th>
+            </xpath>
+            <xpath expr="//th[@name='th_description']" position="replace">
+                <th name="th_description" class="text-center" style="font-weight: bold;">DESCRIPTION</th>
+            </xpath>
+            <xpath expr="//th[@name='th_quantity']" position="replace">
+                <th name="th_quantity" class="text-center" style="font-weight: bold;">QTY</th>
+            </xpath>
+            <xpath expr="//th[@name='th_priceunit']" position="replace">
+                <th name="th_priceunit" class="text-center" style="font-weight: bold;">UNIT PRICE</th>
+            </xpath>
+            <xpath expr="//th[@name='th_subtotal']" position="replace">
+                <th name="th_subtotal" class="text-center" style="font-weight: bold;">TOTAL</th>
+            </xpath>
+            <xpath expr="//td[@name='account_invoice_line_name']" position="before">
+                <td name="td_invoice_line_no" class="text-center">
+                    <span t-out="line_index + 1" />. </td>
+            </xpath>
+            <xpath expr="//td[@t-if='display_discount']" position="attributes">
+                <attribute name="class">d-none</attribute>
+            </xpath>
+            <xpath expr="//t[@name='account_invoice_line_accountable']//td[6]" position="attributes">
+                <attribute name="class">d-none</attribute>
+            </xpath>
+            <xpath expr="//th[@name='th_taxes']" position="attributes">
+                <attribute name="t-if">False</attribute>
+            </xpath>
+            <xpath expr="//td[@name='td_taxes']" position="attributes">
+                <attribute name="t-if">False</attribute>
+            </xpath>
+            <xpath expr="//div[hasclass('clearfix')]" position="before">
+                <br />
+            </xpath>
+            <xpath expr="//p[@name='payment_communication']" position="attributes">
+                <attribute name="class">d-none</attribute>
+            </xpath>
+            <xpath expr="//table" position="after">
+                <div
+                    t-attf-class="#{'col-7' if report_type != 'html' else 'col-sm-5 col-md-6'}">
+                    <div class="pt-4" style="font-size:1.8em; width:60%;">
+                        <strong style="color:black;">Thank you for your business!</strong>
+                        <div style="padding-top:50px; " />
+                    </div>
+                </div>
+            </xpath>
+            <xpath expr="//div[contains(@class, 'ms-auto')]" position="attributes">
+                <attribute name="t-attf-class">#{'col-5' if report_type != 'html' else 'col-sm-7
+                    col-md-6'}</attribute>
+            </xpath>
+        </template>
+    </data>
+</odoo>
